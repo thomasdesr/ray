@@ -1,7 +1,9 @@
+from collections import defaultdict
+import itertools
+import logging
+import operator
 import random
 import threading
-from collections import defaultdict
-import logging
 
 import boto3
 import botocore
@@ -243,37 +245,7 @@ class AWSNodeProvider(NodeProvider):
         except KeyError:
             pass
 
-        tag_pairs = [{
-            "Key": TAG_RAY_CLUSTER_NAME,
-            "Value": self.cluster_name,
-        }]
-        for k, v in tags.items():
-            tag_pairs.append({
-                "Key": k,
-                "Value": v,
-            })
-        tag_specs = [{
-            "ResourceType": "instance",
-            "Tags": tag_pairs,
-        }]
-        user_tag_specs = conf.get("TagSpecifications", [])
-        # Allow users to add tags and override values of existing
-        # tags with their own. This only applies to the resource type
-        # "instance". All other resource types are appended to the list of
-        # tag specs.
-        for user_tag_spec in user_tag_specs:
-            if user_tag_spec["ResourceType"] == "instance":
-                for user_tag in user_tag_spec["Tags"]:
-                    exists = False
-                    for tag in tag_specs[0]["Tags"]:
-                        if user_tag["Key"] == tag["Key"]:
-                            exists = True
-                            tag["Value"] = user_tag["Value"]
-                            break
-                    if not exists:
-                        tag_specs[0]["Tags"] += [user_tag]
-            else:
-                tag_specs += [user_tag_spec]
+        tag_specs = self._generate_tag_specs(conf, tags)
 
         # SubnetIds is not a real config key: we must resolve to a
         # single SubnetId before invoking the AWS API.
@@ -307,6 +279,117 @@ class AWSNodeProvider(NodeProvider):
                     raise exc
                 else:
                     logger.error(exc)
+
+    def _generate_tag_specs(self, node_config, user_tags):
+        conf = node_config.copy()
+
+        instance_tag_sources = itertools.chain(
+            # Tags from config
+            conf.get("tags", {}).items(),
+            # Tags provided on create_node
+            user_tags.items(),
+            # Tags we need set for the autoscaler to track the cluster
+            [(TAG_RAY_CLUSTER_NAME, self.cluster_name)],
+        )
+
+        # Reshape our various tags into an EC2 TagSpecification
+        base_tag_spec = [{
+            "ResourceType": "instance",
+            "Tags": [{
+                "Key": k,
+                "Value": v
+            } for k, v in instance_tag_sources],
+        }]
+
+        # Pull out the AWS Provider TagSpecification and make sure it won't
+        # break any cluster tags we depend on.
+        user_tag_spec = conf.get("TagSpecifications", [])
+        self._validate_user_tag_spec(user_tag_spec)
+
+        # Merge the user_tag_spec into our base_tag_spec preferring the more
+        # specific UserTag spec values to our default set.
+        return self._merge_tag_specs(base_tag_spec, user_tag_spec)
+
+    @staticmethod
+    def _validate_user_tag_spec(tag_spec):
+        """
+        Make a best effort attempt to avoid letting a user's TagSpecification
+        overwrite tags the AWS Provider depends on.
+        """
+        instance_tag_specs = (spec for spec in tag_spec
+                              if spec["ResourceType"] == "instance")
+
+        instance_tag_keys = (
+            tag["Key"]
+            # unnest the tags so we can check for any unwated tag keys
+            for instance_specs in instance_tag_specs
+            for tag in instance_specs["Tags"])
+
+        CRITICAL_TAGS = [
+            TAG_RAY_CLUSTER_NAME, TAG_RAY_NODE_NAME, TAG_RAY_LAUNCH_CONFIG,
+            TAG_RAY_NODE_TYPE
+        ]
+
+        conflicting_tags = [
+            key for key in instance_tag_keys if key in CRITICAL_TAGS
+        ]
+
+        assert not any(conflicting_tags), \
+            "User provided TagSpecification tried to overwrite tags " \
+            "the AWS Node Provider depends on for tracking instances: {}".format(conflicting_tags)
+
+    @staticmethod
+    def _merge_tag_specs(left, right):
+        """
+        Merge the `Tags` associated with each `ResourceType`. Any duplciates
+        will be resolved with a preference for `right` over `left`.
+        """
+
+        def tag_spec_to_tree(tag_spec):
+            return {
+                spec["ResourceType"]:
+                {t["Key"]: t["Value"]
+                 for t in spec["Tags"]}
+                for spec in tag_spec
+            }
+
+        def tree_to_tag_spec(tree):
+            return [{
+                "ResourceType": _type,
+                "Tags": [{
+                    "Key": k,
+                    "Value": v
+                } for k, v in tags.items()],
+            } for _type, tags in tree.items()]
+
+        left_tree = tag_spec_to_tree(left)
+        right_tree = tag_spec_to_tree(right)
+
+        merged = {
+            _type: {
+                **left_tree.get(_type, {}),
+                **right_tree.get(_type, {}),
+            }
+            for _type in set(left_tree) | set(right_tree)
+        }
+
+        return AWSNodeProvider._canonical_tag_spec(tree_to_tag_spec(merged))
+
+    @staticmethod
+    def _canonical_tag_spec(spec):
+        """
+        Makes sure any TagSpecification is consistent by sorting all its
+        values.
+        """
+        sorted_tags = ({
+            "ResourceType": spec["ResourceType"],
+            "Tags": sorted(
+                spec["Tags"],
+                key=operator.itemgetter("Key"),
+            )
+        } for spec in spec)
+
+        return sorted(sorted_tags, key=operator.itemgetter("ResourceType"))
 
     def terminate_node(self, node_id):
         node = self._get_cached_node(node_id)
