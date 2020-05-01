@@ -159,28 +159,29 @@ class GCPNodeProvider(NodeProvider):
 
     def create_node(self, base_config, tags, count):
         with self.lock:
-            labels = tags  # gcp uses "labels" instead of aws "tags"
             project_id = self.provider_config["project_id"]
             availability_zone = self.provider_config["availability_zone"]
 
             config = base_config.copy()
 
+            machine_type = "zones/{zone}/machineTypes/{machine_type}".format(
+                zone=availability_zone,
+                machine_type=config["machineType"],
+            )
+
+            # gcp uses "labels" instead of aws "tags"
+            labels = config.get("tags", {}) + config.get("labels") + tags
+            labels[TAG_RAY_CLUSTER_NAME] = self.cluster_name
+
+            config.update({
+                "machineType": machine_type,
+                "labels": labels,
+            })
+
             name_label = labels[TAG_RAY_NODE_NAME]
             assert (len(name_label) <=
                     (INSTANCE_NAME_MAX_LEN - INSTANCE_NAME_UUID_LEN - 1)), (
                         name_label, len(name_label))
-
-            machine_type = ("zones/{zone}/machineTypes/{machine_type}"
-                            "".format(
-                                zone=availability_zone,
-                                machine_type=base_config["machineType"]))
-            labels = dict(config.get("labels", {}), **labels)
-
-            config.update({
-                "machineType": machine_type,
-                "labels": dict(labels,
-                               **{TAG_RAY_CLUSTER_NAME: self.cluster_name}),
-            })
 
             operations = [
                 self.compute.instances().insert(
