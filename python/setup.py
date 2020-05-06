@@ -84,8 +84,17 @@ if "RAY_USE_NEW_GCS" in os.environ and os.environ["RAY_USE_NEW_GCS"] == "on":
 extras: MutableMapping[str, List[str]] = {
     "debug": [],
     "dashboard": ["requests"],
-    "serve": ["uvicorn", "pygments", "werkzeug", "flask", "pandas", "blist"],
-    "tune": ["tabulate", "tensorboardX", "pandas"]
+    "serve": [
+        "uvicorn",
+        "pygments",
+        "werkzeug",
+        "flask",
+        "pandas",
+        'blist; sys_platform != "win32"'  # blist isn't compatable with windows: https://github.com/DanielStutzbach/blist/issues/81#issue-391460716
+    ],
+    "tune": [
+        "tabulate", "tensorboardX", "pandas", "scikit-optimize", "hyperopt"
+    ],
 }
 
 extras["rllib"] = extras["tune"] + [
@@ -94,8 +103,8 @@ extras["rllib"] = extras["tune"] + [
     "gym[atari]",
     "lz4",
     "opencv-python-headless",
-    "pyyaml",
     "scipy",
+    "torch",
 ]
 
 extras["streaming"] = ["msgpack >= 0.6.2"]
