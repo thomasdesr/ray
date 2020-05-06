@@ -210,6 +210,10 @@ requires = [
     "py-spy >= 0.2.0",
     "pyyaml",
     "redis >= 3.3.2, < 3.5.0",
+    "six",
+    "uuid",
+    "wheel",
+    "joblib",
 ]
 
 setup(
