@@ -90,7 +90,8 @@ extras: MutableMapping[str, List[str]] = {
         "werkzeug",
         "flask",
         "pandas",
-        'blist; sys_platform != "win32"'  # blist isn't compatable with windows: https://github.com/DanielStutzbach/blist/issues/81#issue-391460716
+        # https://github.com/DanielStutzbach/blist/issues/81#issue-391460716
+        'blist; sys_platform != "win32"'
     ],
     "tune": [
         "tabulate", "tensorboardX", "pandas", "scikit-optimize", "hyperopt"
