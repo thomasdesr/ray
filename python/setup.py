@@ -104,6 +104,28 @@ extras: MutableMapping[str, List[str]] = {
         "msrestazure"
     ],
     "kubernetes": ["kubernetes"],
+
+    # What you need to make
+    "testing": [
+        # Testing utilities
+        "pytest",
+        "pytest-sugar",
+        "pytest-rerunfailures",
+        "pytest-asyncio",
+        "pytest-benchmark",
+        "pytest-timeout",
+
+        # Linting
+        "flake8==3.7.7",
+        "flake8-quotes",
+
+        # Formating
+        "yapf==0.23.0",
+
+        # Integration testing
+        "numba",
+        "h5py",
+    ],
 }
 
 # yapf: disable
