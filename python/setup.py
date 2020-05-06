@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+from typing import List, MutableMapping
 
 from setuptools import setup, find_packages, Distribution
 import setuptools.command.build_ext as _build_ext
@@ -80,7 +81,7 @@ if "RAY_USE_NEW_GCS" in os.environ and os.environ["RAY_USE_NEW_GCS"] == "on":
         "ray/core/src/credis/redis/src/redis-server"
     ]
 
-extras = {
+extras: MutableMapping[str, List[str]] = {
     "debug": [],
     "dashboard": ["requests"],
     "serve": ["uvicorn", "pygments", "werkzeug", "flask", "pandas", "blist"],
