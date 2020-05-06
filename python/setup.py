@@ -95,7 +95,25 @@ extras: MutableMapping[str, List[str]] = {
     "tune": [
         "tabulate", "tensorboardX", "pandas", "scikit-optimize", "hyperopt"
     ],
+
+    # Autoscaler options
+    "aws": ["boto3"],
+    "gcp": ["google-api-python-client", "cryptography"],
+    "azure": [
+        "azure-mgmt-compute", "azure-mgmt-network", "azure-mgmt-resource",
+        "msrestazure"
+    ],
+    "kubernetes": ["kubernetes"],
 }
+
+# yapf: disable
+extras["autoscaler"] = list(set(chain(
+    # yapf: enable
+    extras["aws"],
+    extras["gcp"],
+    extras["azure"],
+    extras["kubernetes"],
+)))
 
 extras["rllib"] = extras["tune"] + [
     "atari_py",
