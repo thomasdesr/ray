@@ -520,6 +520,9 @@ class BuildOutputBlocksMapTransformFn(MapTransformFn):
         Args:
             iter: the iterable of UDF-returned data, whose type
                 must match self._input_type.
+
+        Yields:
+            Block: Output blocks created from the UDF-returned data.
         """
         output_buffer = BlockOutputBuffer(self.output_block_size_option)
         if self._input_type == MapTransformFnDataType.Block:

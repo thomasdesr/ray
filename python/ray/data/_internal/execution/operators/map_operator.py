@@ -546,9 +546,8 @@ def _map_task(
             Iterator[Block] as output.
         blocks: The concrete block values from the task ref bundle.
 
-    Returns:
-        A generator of blocks, followed by the list of BlockMetadata for the blocks
-        as the last generator return.
+    Yields:
+        Union[Block, BlockMetadataWithSchema]: Blocks and their metadata.
     """
     from ray.data.block import BlockMetadataWithSchema
 

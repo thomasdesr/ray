@@ -88,8 +88,8 @@ class LogsManager:
         Args:
             options: The option for streaming logs.
 
-        Return:
-            Async generator of streamed logs in bytes.
+        Yields:
+            bytes: Streamed logs in bytes.
         """
         node_id = options.node_id
         if node_id is None:

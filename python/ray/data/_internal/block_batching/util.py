@@ -47,6 +47,9 @@ def resolve_block_refs(
     Args:
         block_ref_iter: An iterator over block object references.
         stats: An optional stats object to recording block hits and misses.
+
+    Yields:
+        Block: Resolved block objects.
     """
     hits = 0
     misses = 0
@@ -98,8 +101,8 @@ def blocks_to_batches(
         ensure_copy: Whether batches are always copied from the underlying base
             blocks (not zero-copy views).
 
-    Returns:
-        An iterator over blocks of the given size that are potentially shuffled.
+    Yields:
+        Batch: Blocks of the given size that are potentially shuffled.
     """
     if shuffle_buffer_min_size is not None:
         batcher = ShufflingBatcher(
@@ -153,8 +156,8 @@ def format_batches(
         batch_format: The batch format to use.
         stats: An optional stats object to record formatting times.
 
-    Returns:
-        An iterator over batch index and the formatted batch.
+    Yields:
+        Batch: Formatted batches with batch index and formatted data.
     """
     for batch in block_iter:
         with stats.iter_format_batch_s.timer() if stats else nullcontext():
@@ -176,6 +179,9 @@ def collate(
         batch_iter: An iterator over formatted batches.
         collate_fn: A function to apply to each batch.
         stats: An optional stats object to record formatting times.
+
+    Yields:
+        CollatedBatch: Collated batches with batch index and collated data.
     """
     for batch in batch_iter:
         with stats.iter_collate_batch_s.timer() if stats else nullcontext():
@@ -198,8 +204,8 @@ def finalize_batches(
         finalize_fn: A function to apply to each batch.
         stats: An optional stats object to record formatting times.
 
-    Returns:
-        An iterator over batch index and the finalized batch.
+    Yields:
+        CollatedBatch: Finalized batches with batch index and finalized data.
     """
     for batch in batch_iter:
         with stats.iter_finalize_batch_s.timer() if stats else nullcontext():

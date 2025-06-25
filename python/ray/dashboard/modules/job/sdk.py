@@ -478,8 +478,8 @@ class JobSubmissionClient(SubmissionClient):
             job_id: The job ID or submission ID of the job whose logs are being
                 requested.
 
-        Returns:
-            The iterator.
+        Yields:
+            str: Log lines from the job.
 
         Raises:
             RuntimeError: If the job does not exist or if the request to the

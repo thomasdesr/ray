@@ -7,7 +7,7 @@ import tempfile
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
-from typing import List, Optional, Sequence, Tuple
+from typing import Any, Iterator, List, Optional, Sequence, Tuple
 
 import yaml
 
@@ -105,7 +105,7 @@ class Archive:
         self.close()
 
     @contextmanager
-    def subdir(self, subdir: str, root: Optional[str] = "/"):
+    def subdir(self, subdir: str, root: Optional[str] = "/") -> Iterator[Any]:
         """Open a context to add files to the archive.
 
         Example:

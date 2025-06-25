@@ -7,7 +7,7 @@ import json
 import re
 import tarfile
 from functools import partial
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Iterator, List, Optional, Union
 
 from ray.data._internal.util import iterate_with_retry
 from ray.data.block import BlockAccessor
@@ -103,7 +103,7 @@ def _tar_file_iterator(
     filerename: Optional[Union[bool, callable, list]] = None,
     verbose_open: bool = False,
     meta: dict = None,
-):
+) -> Iterator[Dict[str, Any]]:
     """Iterate over tar file, yielding filename, content pairs for the given tar stream.
 
     Args:
@@ -111,6 +111,9 @@ def _tar_file_iterator(
         fileselect: patterns or function selecting
             files to be selected
         meta: metadata to be added to each sample
+
+    Yields:
+        Dict[str, Any]: Dictionary containing filename and data for each file.
     """
     meta = meta or {}
     stream = tarfile.open(fileobj=fileobj, mode="r|*")
@@ -136,7 +139,7 @@ def _group_by_keys(
     keys: callable = _base_plus_ext,
     suffixes: Optional[Union[list, callable]] = None,
     meta: dict = None,
-):
+) -> Iterator[Dict[str, Any]]:
     """Return function over iterator that groups key, value pairs into samples.
 
     Args:
@@ -144,6 +147,9 @@ def _group_by_keys(
         keys: function that returns key, suffix for a given key
         suffixes: list of suffixes to be included in the sample
         meta: metadata to be added to each sample
+
+    Yields:
+        Dict[str, Any]: Grouped samples with metadata.
     """
     meta = meta or {}
     current_sample = None
@@ -322,7 +328,7 @@ class WebDatasetDatasource(FileBasedDatasource):
         self.verbose_open = verbose_open
         self.expand_json = expand_json
 
-    def _read_stream(self, stream: "pyarrow.NativeFile", path: str):
+    def _read_stream(self, stream: "pyarrow.NativeFile", path: str) -> Iterator["pd.DataFrame"]:
         """Read and decode samples from a stream.
 
         Note that fileselect selects files during reading, while suffixes
