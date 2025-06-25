@@ -105,9 +105,6 @@ class Rendezvous:
 
         Args:
             timeout_s: timeout in seconds.
-
-        Return:
-            None
         """
         if timeout_s <= 0:
             raise ValueError(
@@ -238,9 +235,6 @@ class GLOOGroup(BaseGroup):
         Args:
             tensor: the tensor to be reduced, each tensor locates on CPU
             allreduce_options:
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, context):
@@ -260,9 +254,6 @@ class GLOOGroup(BaseGroup):
 
         Args:
             barrier_options: barrier options.
-
-        Returns:
-            None
         """
         barrier_tensor = numpy.array([1])
         self.allreduce([barrier_tensor])
@@ -274,9 +265,6 @@ class GLOOGroup(BaseGroup):
             tensors: the list of tensors to be reduced,
                             this list only have one tensor.
             reduce_options: reduce options.
-
-        Returns:
-            None
         """
         root_rank = reduce_options.root_rank
 
@@ -299,9 +287,6 @@ class GLOOGroup(BaseGroup):
         Args:
             tensors: tensors to be broadcast or received.
             broadcast_options: broadcast options.
-
-        Returns:
-            None
         """
         root_rank = broadcast_options.root_rank
 
@@ -325,9 +310,6 @@ class GLOOGroup(BaseGroup):
             tensors: the list of tensors to allgather across the group.
                      Each tensor must locate on CPU.
             allgather_options: allgather options.
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, context):
@@ -365,9 +347,6 @@ class GLOOGroup(BaseGroup):
             tensor_lists (List[List]): the list of tensors to be reduced then
                                        scattered.
             reducescatter_options: reduce-scatter options.
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, context):
@@ -404,9 +383,6 @@ class GLOOGroup(BaseGroup):
         Args:
             tensors: the tensor to send.
             send_options: send options.
-
-        Returns:
-            None
         """
 
         def p2p_fn(tensor, context, peer):
@@ -426,9 +402,6 @@ class GLOOGroup(BaseGroup):
         Args:
             tensors: the received tensor.
             recv_options: Receive options.
-
-        Returns:
-            None
         """
 
         def p2p_fn(tensor, context, peer):
@@ -458,9 +431,6 @@ class GLOOGroup(BaseGroup):
             collective_fn: the collective function call.
             preprocess_fn: preprocess procedures before collective calls.
             postprocess_fn: postprocess procedures after collective calls.
-
-        Returns:
-            None
         """
         _check_cpu_tensors(input_tensors)
         _check_cpu_tensors(output_tensors)
@@ -478,9 +448,6 @@ class GLOOGroup(BaseGroup):
             tensors: the tensor to send or receive.
             p2p_fn: the p2p function call.
             peer_rank: the rank of the peer process.
-
-        Returns:
-            None
         """
         _check_cpu_tensors(tensors)
 

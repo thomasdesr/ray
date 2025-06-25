@@ -179,9 +179,6 @@ class NCCLGroup(BaseGroup):
             tensors: the list of tensors to be reduced. Each tensor must
                             reside on one GPU of the current process.
             allreduce_options: allreduce options.
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, comm, stream):
@@ -201,9 +198,6 @@ class NCCLGroup(BaseGroup):
 
         Args:
             barrier_options: barrier options.
-
-        Returns:
-            None
         """
         # Get the device list.
         if self._used_gpu_indices:
@@ -223,9 +217,6 @@ class NCCLGroup(BaseGroup):
             tensors: the list of tensors to be reduced, each tensor
                             must reside on one gpu of the current process.
             reduce_options: reduce options.
-
-        Returns:
-            None
         """
         root_rank = len(tensors) * reduce_options.root_rank + reduce_options.root_tensor
 
@@ -248,9 +239,6 @@ class NCCLGroup(BaseGroup):
         Args:
             tensors: tensors to be broadcast or received.
             broadcast_options: broadcast options.
-
-        Returns:
-            None
         """
         root_rank = (
             len(tensors) * broadcast_options.root_rank + broadcast_options.root_tensor
@@ -276,9 +264,6 @@ class NCCLGroup(BaseGroup):
             tensors: the list of tensors to allgather across the group.
                      Each tensor must lolcate on a GPU of the process.
             allgather_options: allgather options.
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, comm, stream):
@@ -317,9 +302,6 @@ class NCCLGroup(BaseGroup):
             tensor_lists (List[List]): the list of tensors to be reduced then
                                        scattered.
             reducescatter_options: reduce-scatter options.
-
-        Returns:
-            None
         """
 
         def collective_fn(input_tensor, output_tensor, comm, stream):
@@ -353,9 +335,6 @@ class NCCLGroup(BaseGroup):
         Args:
             tensors: the tensor to send.
             send_options: send options.
-
-        Returns:
-            None
         """
 
         def p2p_fn(tensor, comm, stream, peer):
@@ -379,9 +358,6 @@ class NCCLGroup(BaseGroup):
         Args:
             tensors: the received tensor.
             recv_options: Receive options.
-
-        Returns:
-            None
         """
 
         def p2p_fn(tensor, comm, stream, peer):
@@ -543,9 +519,6 @@ class NCCLGroup(BaseGroup):
 
         Args:
             group_key: the unique key to retrieve the KV store.
-
-        Returns:
-            None
         """
         store_name = get_store_name(group_key)
         store = ray.get_actor(store_name)
@@ -592,9 +565,6 @@ class NCCLGroup(BaseGroup):
             collective_fn: the collective function call.
             preprocess_fn: preprocess procedures before collective calls.
             postprocess_fn: postprocess procedures after collective calls.
-
-        Returns:
-            None
         """
         _check_gpu_tensors(input_tensors)
         _check_gpu_tensors(output_tensors)
@@ -634,9 +604,6 @@ class NCCLGroup(BaseGroup):
             p2p_fn: the p2p function call.
             peer_rank: the rank of the peer process.
             peer_gpu_idx: the index of the gpu on the peer process.
-
-        Returns:
-            None
         """
         # check send/recv availability.
         if nccl_util.get_nccl_runtime_version() < 2704:

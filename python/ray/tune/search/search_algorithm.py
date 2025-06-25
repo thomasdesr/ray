@@ -69,10 +69,11 @@ class SearchAlgorithm:
         raise NotImplementedError
 
     def next_trial(self):
-        """Returns single Trial object to be queued into the TrialRunner.
+        """Provides single Trial object to be queued into the TrialRunner.
 
-        Returns:
-            trial: Returns a Trial object.
+        Note:
+            This base implementation raises NotImplementedError. 
+            Subclasses should override this method to return a Trial object.
         """
         raise NotImplementedError
 

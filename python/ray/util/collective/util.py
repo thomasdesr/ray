@@ -29,7 +29,7 @@ class NCCLUniqueIDStore:
             uid: the unique ID generated via the NCCL generate_communicator_id API.
 
         Returns:
-            None
+            The NCCL unique ID that was set.
         """
         self.nccl_id = uid
         return self.nccl_id

@@ -161,9 +161,6 @@ def init_collective_group(
         rank: the rank of the current process.
         backend: the CCL backend to use, NCCL or GLOO.
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     _check_inside_actor()
     backend = types.Backend(backend)
@@ -202,9 +199,6 @@ def create_collective_group(
         ranks (List[int]): the rank of each actor.
         backend: the CCL backend to use, NCCL or GLOO.
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     backend = types.Backend(backend)
     _check_backend_availability(backend)
@@ -299,9 +293,6 @@ def allreduce(tensor, group_name: str = "default", op=types.ReduceOp.SUM):
         tensor: the tensor to be all-reduced on this process.
         group_name: the collective group name to perform allreduce.
         op: The reduce operation.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     g = get_group_handle(group_name)
@@ -319,9 +310,6 @@ def allreduce_multigpu(
         tensor_list (List[tensor]): list of tensors to be allreduced,
             each on a GPU.
         group_name: the collective group name to perform allreduce.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("Multigpu calls requires NCCL and Cupy.")
@@ -337,9 +325,6 @@ def barrier(group_name: str = "default"):
 
     Args:
         group_name: the name of the group to barrier.
-
-    Returns:
-        None
     """
     g = get_group_handle(group_name)
     g.barrier()
@@ -355,9 +340,6 @@ def reduce(
         dst_rank: the rank of the destination process.
         group_name: the collective group name to perform reduce.
         op: The reduce operation.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     g = get_group_handle(group_name)
@@ -388,9 +370,6 @@ def reduce_multigpu(
         dst_tensor: the index of GPU at the destination.
         group_name: the collective group name to perform reduce.
         op: The reduce operation.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("Multigpu calls requires NCCL and Cupy.")
@@ -414,9 +393,6 @@ def broadcast(tensor, src_rank: int = 0, group_name: str = "default"):
         tensor: the tensor to be broadcasted (src) or received (destination).
         src_rank: the rank of the source process.
         group_name: the collective group name to perform broadcast.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     g = get_group_handle(group_name)
@@ -439,9 +415,6 @@ def broadcast_multigpu(
         src_rank: the rank of the source process.
         src_tensor: the index of the source GPU on the source process.
         group_name: the collective group name to perform broadcast.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("Multigpu calls requires NCCL and Cupy.")
@@ -464,9 +437,6 @@ def allgather(tensor_list: list, tensor, group_name: str = "default"):
         tensor_list: the results, stored as a list of tensors.
         tensor: the tensor (to be gathered) in the current process
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     _check_tensor_list_input(tensor_list)
@@ -493,9 +463,6 @@ def allgather_multigpu(
         input_tensor_list: (List[tensor]): a list of tensors, with shape
             num_gpus * shape(tensor).
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("Multigpu calls requires NCCL and Cupy.")
@@ -519,9 +486,6 @@ def reducescatter(
         tensor_list: The list of tensors to be reduced and scattered.
         group_name: the name of the collective group.
         op: The reduce operation.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     _check_tensor_list_input(tensor_list)
@@ -551,9 +515,6 @@ def reducescatter_multigpu(
             num_gpus * world_size * shape(tensor).
         group_name: the name of the collective group.
         op: The reduce operation.
-
-    Returns:
-        None.
     """
     if not types.cupy_available():
         raise RuntimeError("Multigpu calls requires NCCL and Cupy.")
@@ -572,9 +533,6 @@ def send(tensor, dst_rank: int, group_name: str = "default"):
         tensor: the tensor to send.
         dst_rank: the rank of the destination process.
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     g = get_group_handle(group_name)
@@ -605,9 +563,6 @@ def send_multigpu(
         group_name: the name of the collective group.
         n_elements: if specified, send the next n elements
             from the starting address of tensor.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("send_multigpu call requires NCCL.")
@@ -635,9 +590,6 @@ def recv(tensor, src_rank: int, group_name: str = "default"):
         tensor: the received tensor.
         src_rank: the rank of the source process.
         group_name: the name of the collective group.
-
-    Returns:
-        None
     """
     _check_single_tensor_input(tensor)
     g = get_group_handle(group_name)
@@ -666,9 +618,6 @@ def recv_multigpu(
         src_rank: The rank of the source process.
         src_gpu_index: The index of the source GPU on the src process.
         group_name: The name of the collective group.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("recv_multigpu call requires NCCL.")
@@ -694,9 +643,6 @@ def synchronize(gpu_id: int):
 
     Args:
         gpu_id: the GPU device id to synchronize.
-
-    Returns:
-        None
     """
     if not types.cupy_available():
         raise RuntimeError("synchronize call requires CUDA and NCCL.")

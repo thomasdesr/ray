@@ -830,17 +830,17 @@ class Trainable:
     def step(self):
         """Subclasses should override this to implement train().
 
-        The return value will be automatically passed to the loggers. Users
-        can also return `tune.result.DONE` or `tune.result.SHOULD_CHECKPOINT`
+        Users can also return `tune.result.DONE` or `tune.result.SHOULD_CHECKPOINT`
         as a key to manually trigger termination or checkpointing of this
         trial. Note that manual checkpointing only works when subclassing
         Trainables.
 
         .. versionadded:: 0.8.7
 
-        Returns:
-            A dict that describes training progress.
-
+        Note:
+            This base implementation raises NotImplementedError. 
+            Subclasses should override this method to return a dict 
+            that describes training progress.
         """
         raise NotImplementedError
 

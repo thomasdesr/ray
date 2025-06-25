@@ -204,9 +204,6 @@ def copy_tensor(dst_tensor, src_tensor):
     Args:
         dst_tensor: the tensor to copy from.
         src_tensor: the tensor to copy to.
-
-    Returns:
-        None
     """
     copied = True
     if isinstance(dst_tensor, numpy.ndarray) and isinstance(src_tensor, numpy.ndarray):

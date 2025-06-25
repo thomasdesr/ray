@@ -132,9 +132,10 @@ class RayDaskCallback(Callback):
             object_refs: The object references
                 for the arguments of the Ray task.
 
-        Returns:
-            A value that Ray passes to the corresponding
-            _ray_posttask callback, if the callback is defined.
+        Note:
+            The base implementation returns None implicitly. Subclasses can
+            override this method to return a value that will be passed to the
+            corresponding _ray_posttask callback, if the callback is defined.
         """
         pass
 
