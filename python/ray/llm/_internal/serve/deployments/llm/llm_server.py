@@ -614,8 +614,8 @@ class LLMServer(_LLMServerBase):
         Args:
             request: An EmbeddingRequest object.
 
-        Returns:
-            A LLMEmbeddingsResponse object.
+        Yields:
+            EmbeddingResponse: A LLMEmbeddingsResponse object.
         """
         request_id = get_serve_request_id()
         try:

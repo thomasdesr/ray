@@ -68,6 +68,9 @@ def ray_instance(request):
     Args:
         request: request.param should contain a dictionary of env vars and
             their values. The Ray instance will be started with these env vars.
+
+    Yields:
+        ray.RayContext: The Ray context for the initialized Ray instance.
     """
 
     original_env_vars = os.environ.copy()

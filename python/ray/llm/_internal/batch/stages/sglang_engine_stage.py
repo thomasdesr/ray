@@ -317,8 +317,8 @@ class SGLangEngineStageUDF(StatefulStageUDF):
         Args:
             batch: A list of rows to run the SGLang engine on.
 
-        Returns:
-            The response of the SGLang engine.
+        Yields:
+            Dict[str, Any]: The response of the SGLang engine.
         """
         batch_uuid = uuid.uuid4()
         t = time.perf_counter()

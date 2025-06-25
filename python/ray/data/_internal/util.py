@@ -972,9 +972,8 @@ def make_async_gen(
 
                         num_workers * buffer_size * 2 (input and output)
 
-    Returns:
-        An generator (iterator) of the elements corresponding to the source
-        elements mapped by provided transformation (while *preserving the ordering*)
+    Yields:
+        U: Elements corresponding to the source elements mapped by provided transformation (while *preserving the ordering*)
     """
 
     gen_id = random.randint(0, 2**31 - 1)

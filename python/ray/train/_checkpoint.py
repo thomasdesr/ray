@@ -237,6 +237,9 @@ class Checkpoint(metaclass=_CheckpointMetaClass):
         This function makes checkpoint data available as a directory while avoiding
         unnecessary copies and left-over temporary data.
 
+        Yields:
+            str: Path to the local directory containing checkpoint contents.
+
         *If the checkpoint points to a local directory*, this method just returns the
         local directory path without making a copy, and nothing will be cleaned up
         after exiting the context.

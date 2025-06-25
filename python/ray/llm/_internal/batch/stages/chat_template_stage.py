@@ -58,7 +58,7 @@ class ChatTemplateUDF(StatefulStageUDF):
             batch: A list of rows to send.
 
         Yields:
-            A generator of rows with the chat template applied.
+            Dict[str, Any]: Rows with the chat template applied.
         """
         prompts = []
         for row in batch:

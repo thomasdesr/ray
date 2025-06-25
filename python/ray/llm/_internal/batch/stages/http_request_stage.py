@@ -56,7 +56,7 @@ class HttpRequestUDF(StatefulStageUDF):
             batch: A list of rows to send.
 
         Yields:
-            A generator of rows of the response of the HTTP request.
+            Dict[str, Any]: Rows containing the response of the HTTP request.
         """
         # preprocess to get request body for the given batch
         request_bodies = [None] * len(batch)

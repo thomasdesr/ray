@@ -536,8 +536,8 @@ class vLLMEngineStageUDF(StatefulStageUDF):
         Args:
             batch: A list of rows to run the vLLM engine on.
 
-        Returns:
-            The response of the vLLM engine.
+        Yields:
+            Dict[str, Any]: The response of the vLLM engine.
         """
         batch_uuid = uuid.uuid4()
         t = time.perf_counter()
