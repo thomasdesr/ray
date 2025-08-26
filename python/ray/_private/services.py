@@ -147,6 +147,9 @@ def _build_python_executable_command_memory_profileable(
             e.g., `-u`.
             It means the logs are flushed immediately (good when there's a failure),
             but writing to a log file can be slower.
+
+    Returns:
+        list: Python executable command as a list of strings, optionally including memory profiling configuration.
     """
     command = [
         sys.executable,
@@ -420,7 +423,7 @@ def wait_for_node(
     gcs_address: str,
     node_plasma_store_socket_name: str,
     timeout: int = _timeout,
-):
+) -> None:
     """Wait until this node has appeared in the client table.
     NOTE: Makes an RPC to the GCS up to every 0.1 seconds to
     get all node info. Use only for testing.

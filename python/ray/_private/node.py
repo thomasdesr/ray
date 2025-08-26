@@ -416,7 +416,7 @@ class Node:
                 f"Unable to parse port number from {parts[1]} (full address = {ip_port})"
             )
 
-    def check_version_info(self):
+    def check_version_info(self) -> None:
         """Check if the Python and Ray version of this process matches that in GCS.
 
         This will be used to detect if workers or drivers are started using
@@ -916,6 +916,9 @@ class Node:
 
         Args:
             socket_path: the socket file to prepare.
+
+        Returns:
+            str: The prepared socket path, either the provided path or a generated one.
         """
         result = socket_path
         if sys.platform == "win32":

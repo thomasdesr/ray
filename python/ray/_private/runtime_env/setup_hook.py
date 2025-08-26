@@ -99,6 +99,10 @@ def upload_worker_process_setup_hook_if_needed(
             runtime env) the bytes. So the key should be decoded to
             a string. The given decoder is used to decode the function
             key.
+
+    Returns:
+        Union[Dict[str, Any], RuntimeEnv]: The modified runtime environment with the 
+        worker_process_setup_hook converted to a GCS key reference.
     """
     setup_func = runtime_env.get("worker_process_setup_hook")
 

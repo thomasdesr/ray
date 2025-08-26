@@ -228,6 +228,10 @@ def exec_cmd(
         cmd: the command to run, as a list of strings
         throw_on_error: if true, raises an Exception if the exit code of the
             program is nonzero
+
+    Returns:
+        Union[int, Tuple[int, str, str]]: The exit code if successful, or a tuple of 
+        (exit_code, stdout, stderr) if the command completes.
     """
     child = subprocess.Popen(
         cmd,

@@ -357,7 +357,7 @@ def _store_package_in_gcs(
         data: The serialized package's bytes to store in the GCS.
         logger (Optional[logging.Logger]): The logger used by this function.
 
-    Return:
+    Returns:
         int: Size of data
 
     Raises:
@@ -449,8 +449,8 @@ def package_exists(pkg_uri: str) -> bool:
     Args:
         pkg_uri: The uri of the package
 
-    Return:
-        True for package existing and False for not.
+    Returns:
+        bool: True for package existing and False for not.
     """
     protocol, pkg_name = parse_uri(pkg_uri)
     if protocol == Protocol.GCS:
@@ -617,6 +617,9 @@ def upload_package_if_needed(
         include_parent_dir: If true, includes the top-level directory as a
             directory inside the zip file.
         excludes: List specifying files to exclude.
+
+    Returns:
+        bool: True if the package was uploaded, False if it already existed.
 
     Raises:
         RuntimeError: If the upload fails.
