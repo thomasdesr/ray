@@ -77,6 +77,9 @@ def invoke_state_api(
         - state_api_fn: Function of the state API
         - state_stats: Stats
         - kwargs: Keyword arguments to be forwarded to the `state_api_fn`
+
+    Returns:
+        Any: The result returned by the state API function after validation.
     """
     if "timeout" not in kwargs:
         kwargs["timeout"] = STATE_LIST_TIMEOUT
@@ -503,6 +506,8 @@ def verify_tasks_running_or_terminated(
     Args:
         task_pids: A dict of task name to (pid, expected terminal state).
 
+    Returns:
+        bool: True if all tasks are in the expected running or terminal state.
     """
     assert len(task_pids) == expect_num_tasks, task_pids
     for task_name, pid_and_state in task_pids.items():

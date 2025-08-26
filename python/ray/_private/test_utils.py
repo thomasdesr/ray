@@ -692,8 +692,8 @@ def wait_until_succeeded_without_exception(
         retry_interval_ms: Retry interval in milliseconds.
         raise_last_ex: Raise the last exception when timeout.
 
-    Return:
-        Whether exception occurs within a timeout.
+    Returns:
+        bool: Whether exception occurs within a timeout.
     """
     if isinstance(type(exceptions), tuple):
         raise Exception("exceptions arguments should be given as a tuple")
@@ -1045,6 +1045,9 @@ class BatchQueue(Queue):
     ) -> List[Any]:
         """Gets batch of items from the queue and returns them in a
         list in order.
+
+        Returns:
+            List[Any]: A list of items retrieved from the queue in order.
 
         Raises:
             Empty: if the queue does not contain the desired number of items

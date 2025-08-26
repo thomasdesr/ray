@@ -155,6 +155,9 @@ class ResourceIsolationConfig:
                 processes. Must be >= ray_constants.MINIMUM_SYSTEM_RESERVED_CPU_CORES
                 and < the total number of cores available.
 
+        Returns:
+            int: The validated and converted system reserved CPU weight for cgroup configuration.
+
         Raises:
             ValueError: If system_reserved_cpu is specified, but invalid.
         """

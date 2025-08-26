@@ -142,8 +142,8 @@ class ExternalStorage(metaclass=abc.ABCMeta):
             url: url where the object ref is stored
                 in the external storage.
 
-        Return:
-            List of urls_with_offset of fused objects.
+        Returns:
+            List[str]: List of urls_with_offset of fused objects.
             The order of returned keys are equivalent to the one
             with given object_refs.
         """
@@ -630,6 +630,9 @@ def restore_spilled_objects(
     Args:
         object_refs: List of object IDs (note that it is not ref).
         url_with_offset_list: List of url_with_offset.
+
+    Returns:
+        int: The number of objects successfully restored from external storage.
     """
     return _external_storage.restore_spilled_objects(object_refs, url_with_offset_list)
 
@@ -648,5 +651,8 @@ def _get_unique_spill_filename(object_refs: List[ObjectRef]):
 
     Args:
         object_refs: objects to be spilled in this file.
+
+    Returns:
+        str: A unique filename for the spill file based on UUID and object count.
     """
     return f"{uuid.uuid4().hex}-multi-{len(object_refs)}"
