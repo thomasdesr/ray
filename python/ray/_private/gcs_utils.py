@@ -110,7 +110,7 @@ def cleanup_redis_storage(
     use_ssl: bool,
     storage_namespace: str,
     username: Optional[str] = None,
-):
+) -> None:
     """This function is used to cleanup the storage. Before we having
     a good design for storage backend, it can be used to delete the old
     data. It support redis cluster and non cluster mode.

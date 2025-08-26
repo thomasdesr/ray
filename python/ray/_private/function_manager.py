@@ -193,7 +193,7 @@ class FunctionActorManager:
 
         return key
 
-    def export(self, remote_function):
+    def export(self, remote_function) -> None:
         """Pickle a remote function and export it to redis.
         Args:
             remote_function: the RemoteFunction object.

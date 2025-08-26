@@ -719,7 +719,7 @@ class MetricsAgent:
         # NOTE: When we record this metric, timestamp will be renewed.
         measurement_map.record(tag_map)
 
-    def proxy_export_metrics(self, metrics: List[Metric], worker_id_hex: str = None):
+    def proxy_export_metrics(self, metrics: List[Metric], worker_id_hex: str = None) -> None:
         """Proxy export metrics specified by a Opencensus Protobuf.
 
         This API is used to export metrics emitted from

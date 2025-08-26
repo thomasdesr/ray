@@ -175,7 +175,7 @@ def store_stats_summary(reply):
     return store_summary
 
 
-def free(object_refs: list, local_only: bool = False):
+def free(object_refs: list, local_only: bool = False) -> None:
     """
     DeprecationWarning: `free` is a deprecated API and will be
     removed in a future version of Ray. If you have a use case
