@@ -432,6 +432,9 @@ def get_num_cpus(
             RAY_DISABLE_DOCKER_CPU_WARNING. By default, whether or not to log
             the warning is determined by the env variable
             RAY_DISABLE_DOCKER_CPU_WARNING.
+
+    Returns:
+        int: The number of CPUs available on the system.
     """
     cpu_count = multiprocessing.cpu_count()
     if os.environ.get("RAY_USE_MULTIPROCESSING_CPU_COUNT"):
@@ -798,7 +801,7 @@ def set_sigterm_handler(sigterm_handler):
         signal.signal(signal.SIGTERM, sigterm_handler)
 
 
-def try_to_symlink(symlink_path, target_path):
+def try_to_symlink(symlink_path, target_path) -> None:
     """Attempt to create a symlink.
 
     If the symlink path exists and isn't a symlink, the symlink will not be

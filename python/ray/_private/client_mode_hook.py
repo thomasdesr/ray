@@ -86,6 +86,9 @@ def client_mode_hook(func: callable):
     Args:
         func: This function. This is set when this function is used
             as a decorator.
+
+    Returns:
+        callable: A wrapper function that chooses between regular Ray and Ray Client versions.
     """
 
     from ray.util.client import ray

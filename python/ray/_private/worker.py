@@ -2320,7 +2320,7 @@ def restore_tqdm():
     tqdm_ray.instance().unhide_bars()
 
 
-def listen_error_messages(worker, threads_stopped):
+def listen_error_messages(worker, threads_stopped) -> None:
     """Listen to error messages in the background on the driver.
 
     This runs in a separate thread on the driver and pushes (error, time)
@@ -3696,6 +3696,9 @@ def remote(
         _metadata: Extended options for Ray libraries. For example,
             _metadata={"workflows.io/options": <workflow options>} for Ray workflows.
         _labels: The key-value labels of a task or actor.
+
+    Returns:
+        Union[ray.remote_function.RemoteFunction, ray.actor.ActorClass]: A remote function or actor class that can be invoked with .remote().
     """
     # "callable" returns true for both function and class.
     if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
