@@ -388,7 +388,7 @@ class TPUAcceleratorManager(AcceleratorManager):
         See: https://github.com/google/jax/issues/14977 for an example/more details.
 
         Args:
-            visible_tpu_chips (List[str]): List of int representing TPU chips.
+            visible_tpu_chips: List of int representing TPU chips.
         """
         if os.environ.get(NOSET_TPU_VISIBLE_CHIPS_ENV_VAR):
             return

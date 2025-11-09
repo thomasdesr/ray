@@ -103,7 +103,7 @@ class NeuronAcceleratorManager(AcceleratorManager):
         given visible_neuron_core_ids.
 
         Args:
-            visible_neuron_core_ids (List[str]): List of int representing core IDs.
+            visible_neuron_core_ids: List of int representing core IDs.
         """
         if os.environ.get(NOSET_AWS_NEURON_RT_VISIBLE_CORES_ENV_VAR):
             return
