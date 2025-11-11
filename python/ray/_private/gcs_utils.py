@@ -121,6 +121,9 @@ def cleanup_redis_storage(
        password: The Redis password.
        use_ssl: Whether to encrypt the connection.
        storage_namespace: The namespace of the storage to be deleted.
+
+    Returns:
+        The result of deleting the key prefix from storage.
     """
 
     from ray._raylet import del_key_prefix_from_storage  # type: ignore

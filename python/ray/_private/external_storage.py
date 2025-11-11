@@ -630,6 +630,9 @@ def restore_spilled_objects(
     Args:
         object_refs: List of object IDs (note that it is not ref).
         url_with_offset_list: List of url_with_offset.
+
+    Returns:
+        The result of restoring spilled objects from external storage.
     """
     return _external_storage.restore_spilled_objects(object_refs, url_with_offset_list)
 
@@ -648,5 +651,8 @@ def _get_unique_spill_filename(object_refs: List[ObjectRef]):
 
     Args:
         object_refs: objects to be spilled in this file.
+
+    Returns:
+        A unique string filename for the spill file.
     """
     return f"{uuid.uuid4().hex}-multi-{len(object_refs)}"

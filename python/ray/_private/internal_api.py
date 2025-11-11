@@ -211,6 +211,9 @@ def free(object_refs: list, local_only: bool = False):
         object_refs (List[ObjectRef]): List of object refs to delete.
         local_only: Whether only deleting the list of objects in local
             object store or all object stores.
+
+    Returns:
+        None. This function does not return a value indicating success or failure.
     """
     warnings.warn(
         "`free` is a deprecated API and will be removed in a future version of Ray. "

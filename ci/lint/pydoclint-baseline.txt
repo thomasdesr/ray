@@ -24,8 +24,6 @@ python/ray/_private/external_storage.py
     DOC103: Method `ExternalStorageSmartOpenImpl.__init__`: Docstring arguments are different from function arguments. (Or could be other formatting issues: https://jsh9.github.io/pydoclint/violation_codes.html#notes-on-doc103 ). Arguments in the function signature but not in the docstring: [buffer_size: , node_id: str]. Arguments in the docstring but not in the function signature: [prefix: ].
     DOC106: Function `spill_objects`: The option `--arg-type-hints-in-signature` is `True` but there are no argument type hints in the signature
     DOC107: Function `spill_objects`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints
-    DOC201: Function `restore_spilled_objects` does not have a return section in docstring
-    DOC201: Function `_get_unique_spill_filename` does not have a return section in docstring
 --------------------
 python/ray/_private/function_manager.py
     DOC101: Method `FunctionActorManager.__init__`: Docstring contains fewer arguments than in function signature.
@@ -64,18 +62,15 @@ python/ray/_private/gcs_utils.py
     DOC107: Function `create_gcs_channel`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints
     DOC104: Function `cleanup_redis_storage`: Arguments are the same in the docstring and the function signature, but are in a different order.
     DOC105: Function `cleanup_redis_storage`: Argument names match, but type hints in these args do not match: host, port, password, use_ssl, storage_namespace, username
-    DOC201: Function `cleanup_redis_storage` does not have a return section in docstring
 --------------------
 python/ray/_private/inspect_util.py
     DOC106: Function `is_function_or_method`: The option `--arg-type-hints-in-signature` is `True` but there are no argument type hints in the signature
     DOC107: Function `is_function_or_method`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints
     DOC106: Function `is_static_method`: The option `--arg-type-hints-in-signature` is `True` but there are no argument type hints in the signature
     DOC107: Function `is_static_method`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints
-    DOC201: Function `is_static_method` does not have a return section in docstring
 --------------------
 python/ray/_private/internal_api.py
     DOC111: Function `free`: The option `--arg-type-hints-in-docstring` is `False` but there are type hints in the docstring arg list
-    DOC201: Function `free` does not have a return section in docstring
 --------------------
 python/ray/_private/metrics_agent.py
     DOC101: Method `OpenCensusProxyCollector.__init__`: Docstring contains fewer arguments than in function signature.
