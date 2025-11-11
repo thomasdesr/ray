@@ -8,20 +8,8 @@ python/ray/_private/accelerators/neuron.py
 python/ray/_private/accelerators/tpu.py
     DOC111: Method `TPUAcceleratorManager.set_current_process_visible_accelerator_ids`: The option `--arg-type-hints-in-docstring` is `False` but there are type hints in the docstring arg list
 --------------------
-python/ray/_private/client_mode_hook.py
-    DOC201: Function `client_mode_hook` does not have a return section in docstring
---------------------
 python/ray/_private/dict.py
     DOC111: Function `merge_dicts`: The option `--arg-type-hints-in-docstring` is `False` but there are type hints in the docstring arg list
-    DOC201: Function `deep_update` does not have a return section in docstring
-    DOC201: Function `unflatten_list_dict` does not have a return section in docstring
---------------------
-python/ray/_private/event/event_logger.py
-    DOC201: Function `get_event_logger` does not have a return section in docstring
---------------------
-python/ray/_private/event/export_event_logger.py
-    DOC201: Function `get_export_event_logger` does not have a return section in docstring
-    DOC201: Function `check_export_api_enabled` does not have a return section in docstring
 --------------------
 python/ray/_private/external_storage.py
     DOC201: Method `ExternalStorage._write_multiple_objects` does not have a return section in docstring

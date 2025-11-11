@@ -50,6 +50,9 @@ def deep_update(
             entire value (dict), iff the "type" key in that value dict changes.
         override_all_key_list: List of top level keys
             for which we override the entire value if the key is in the new_dict.
+
+    Returns:
+        The updated original dictionary (modified in place).
     """
     allow_new_subkey_list = allow_new_subkey_list or []
     override_all_if_type_changes = override_all_if_type_changes or []
@@ -194,6 +197,9 @@ def unflatten_list_dict(dt: Dict[str, T], delimiter: str = "/") -> Dict[str, T]:
         >>> dt = {"aaa/0/bb": 12, "aaa/1/cc": 56, "aaa/1/dd": 92}
         >>> unflatten_list_dict(dt)
         {'aaa': [{'bb': 12}, {'cc': 56, 'dd': 92}]}
+
+    Returns:
+        The unflattened dictionary with nested dicts and lists.
     """
     out_type = list if list(dt)[0].split(delimiter, 1)[0].isdigit() else type(dt)
     out = out_type()
